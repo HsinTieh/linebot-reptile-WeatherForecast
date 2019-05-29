@@ -61,7 +61,7 @@ def weather_fun(message):
       humi=row.find_all('td')[3].text
       status=row.find_all('td')[1].find('img',alt=True)
       mes =mes+ '{}'.format(time)+"\n"\
-           +'天氣狀態"{}'.format(status["alt"])+'\n'\
+           +'天氣狀"{}'.format(status["alt"])+'\n'\
            +'溫度:{}'.format(temp)+"\n"\
            +'舒適度:{}'.format(com)+"\n"\
            +'濕度:{}'.format(humi)+"\n\n"
