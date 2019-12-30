@@ -43,23 +43,23 @@ def handle_message(event):
 
 def weather_fun(message):
     city=city_fun(message)
-    target_url = 'https://www.cwb.gov.tw/V7/forecast/taiwan/'+city+'.htm'
+    target_url = 'https://www.cwb.gov.tw/V7/forecast/taiwan/'+city+'.htm' #資料來源
     rs = requests.session()
     res = rs.get(target_url, verify=False)
-    res.encoding = 'unicode' 
-    soup = BeautifulSoup(res.text,'html.parser', from_encoding="gb18030")
-    head = soup.find('table').thead.find_all('tr')
-    body = soup.find('table').tbody.find_all('tr')
+    res.encoding = 'unicode' #防止中文亂碼
+    soup = BeautifulSoup(res.text,'html.parser', from_encoding="gb18030") #將網頁轉成text
+    head = soup.find('table').thead.find_all('tr') #我需要的內容在table裡
+    body = soup.find('table').tbody.find_all('tr') #挖到tr
 
-    for row in head :
+    for row in head : #繼續從tr往下找th
       mes=row.find_all('th')[0].text+"\n"
  
-    for row in body :
+    for row in body :  #繼續從tr往下找th,td
       time=row.find_all('th')[0].text
       temp=row.find_all('td')[0].text
       com=row.find_all('td')[2].text
       humi=row.find_all('td')[3].text
-      status=row.find_all('td')[1].find('img',alt=True)
+      status=row.find_all('td')[1].find('img',alt=True) #所需的訊息在tag’img’裡的alt
       mes =mes+ '{}'.format(time)+"\n"\
            +'天氣狀"{}'.format(status["alt"])+'\n'\
            +'溫度:{}'.format(temp)+"\n"\
